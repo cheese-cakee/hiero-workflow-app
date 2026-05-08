@@ -17,7 +17,8 @@
  */
 function buildWelcomeComment(username, skillLevelDisplayName) {
   return [
-    `👋 Hi @${username}, welcome to the project! You've been assigned this **${skillLevelDisplayName}** issue. 🎉`,
+    `👋 Hi @${username}, welcome to the project! `
+    + `You've been assigned this **${skillLevelDisplayName}** issue. 🎉`,
     '',
     'If you have any questions, feel free to ask here.',
     '',
@@ -106,7 +107,8 @@ function buildPrerequisiteNotMetComment(
   prerequisiteDisplayName,
 ) {
   return [
-    `👋 Hi @${requesterUsername}! You need more experience before tackling **${skillLevel}** issues.`,
+    `👋 Hi @${requesterUsername}! You need more experience before `
+    + `tackling **${skillLevel}** issues.`,
     '',
     `- **Required**: ${requiredCount} completed ${prerequisiteDisplayName}`,
     `- **Your count**: ${completedCount} completed ${prerequisiteDisplayName}`,
@@ -124,7 +126,8 @@ function buildPrerequisiteNotMetComment(
  */
 function buildGfiLimitExceededComment(requesterUsername, maxCompletions) {
   return [
-    `👋 Hi @${requesterUsername}! You've reached the limit of **${maxCompletions}** Good First Issues.`,
+    `👋 Hi @${requesterUsername}! You've reached the limit of `
+    + `**${maxCompletions}** Good First Issues.`,
     '',
     'Please move on to Beginner-level issues to continue growing your contributions.',
   ].join('\n');
@@ -187,7 +190,8 @@ function buildApiErrorComment(requesterUsername) {
  */
 function buildLabelUpdateFailureComment(requesterUsername, errorDetails) {
   return [
-    `👋 Hi @${requesterUsername}! You were assigned successfully, but we could not update the status labels.`,
+    `👋 Hi @${requesterUsername}! You were assigned successfully, `
+    + 'but we could not update the status labels.',
     '',
     `Error: ${errorDetails}`,
     '',

@@ -127,7 +127,8 @@ async function handleAssign(botContext, moduleConfig, logger, audit) {
     );
 
     audit.logAndComment(botContext, 'assignment', 'reject_prerequisites',
-      `Contributor has completed ${prereqResult.completedCount} of ${prereqResult.requiredCount} required prerequisite issues.`,
+      `Contributor has completed ${prereqResult.completedCount} of `
+      + `${prereqResult.requiredCount} required prerequisite issues.`,
       { skillLevel, ...prereqResult });
     return;
   }
@@ -180,7 +181,8 @@ async function handleAssign(botContext, moduleConfig, logger, audit) {
     );
 
     audit.logAndComment(botContext, 'assignment', 'reject_assignment_limit',
-      `Contributor has ${limitResult.openCount} open issues (limit: ${moduleConfig.max_open_assignments}).`,
+      `Contributor has ${limitResult.openCount} open issues `
+      + `(limit: ${moduleConfig.max_open_assignments}).`,
       { openCount: limitResult.openCount });
     return;
   }

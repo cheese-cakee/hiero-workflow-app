@@ -69,7 +69,12 @@ async function checkPrerequisites(botContext, moduleConfig, skillLevel, requeste
       );
 
       if (countAtLevel !== null && countAtLevel > 0) {
-        return { eligible: true, completedCount: countAtLevel, requiredCount, prerequisiteLabel: label };
+        return {
+          eligible: true,
+          completedCount: countAtLevel,
+          requiredCount,
+          prerequisiteLabel: label,
+        };
       }
     }
   }

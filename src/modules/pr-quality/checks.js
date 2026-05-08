@@ -128,7 +128,8 @@ async function checkLinkedIssue(botContext) {
 async function checkConventionalTitle(botContext) {
   const title = botContext.pullRequest.title ?? '';
   // Conventional commit: type(scope)!: description or type: description
-  const conventionalRegex = /^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\(.+\))?(!)?:\s.+$/;
+  const ccTypes = 'build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test';
+  const conventionalRegex = new RegExp(`^(${ccTypes})(\\(.+\\))?(!)?:\\s.+$`);
 
   if (conventionalRegex.test(title)) {
     return { passed: true };
