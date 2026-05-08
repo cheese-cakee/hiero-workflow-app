@@ -56,8 +56,10 @@ function deepMerge(target, source) {
 
     if (
       typeof sourceValue === 'object' &&
+      sourceValue !== null &&
       !Array.isArray(sourceValue) &&
       typeof result[key] === 'object' &&
+      result[key] !== null &&
       !Array.isArray(result[key])
     ) {
       result[key] = deepMerge(result[key], sourceValue);

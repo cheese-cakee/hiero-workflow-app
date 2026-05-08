@@ -97,7 +97,7 @@ async function handleUnassign(botContext, moduleConfig, logger, audit) {
     const swapResult = await swapLabels(botContext, inProgressLabel, readyLabel);
 
     if (!swapResult.success) {
-      logger.error({ error: swapResult.errorDetails }, 'Label swap failed');
+      logger.error({ error: swapResult.error }, 'Label swap failed');
     }
   }
 

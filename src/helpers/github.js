@@ -158,7 +158,7 @@ async function swapLabels(botContext, oldLabel, newLabel) {
     ]
       .filter(Boolean)
       .join('; ');
-    return { success: false, errorDetails: details };
+    return { success: false, error: details };
   }
 
   return { success: true };

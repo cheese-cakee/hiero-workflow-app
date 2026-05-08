@@ -46,22 +46,28 @@ async function findExistingDashboardComment(botContext) {
  * @returns {Promise<void>}
  */
 async function upsertDashboardComment(botContext, body) {
-  const existingId = await findExistingDashboardComment(botContext);
+  try {
+    const existingId = await findExistingDashboardComment(botContext);
 
-  if (existingId) {
-    await botContext.github.issues.updateComment({
-      owner: botContext.owner,
-      repo: botContext.repo,
-      comment_id: existingId,
-      body,
-    });
-  } else {
-    await botContext.github.issues.createComment({
-      owner: botContext.owner,
-      repo: botContext.repo,
-      issue_number: botContext.pullRequest.number,
-      body,
-    });
+    if (existingId) {
+      await botContext.github.issues.updateComment({
+        owner: botContext.owner,
+        repo: botContext.repo,
+        comment_id: existingId,
+        body,
+      });
+    } else {
+      await botContext.github.issues.createComment({
+        owner: botContext.owner,
+        repo: botContext.repo,
+        issue_number: botContext.pullRequest.number,
+        body,
+      });
+    }
+
+    return { success: true };
+  } catch (_error) {
+    return { success: false };
   }
 }
 

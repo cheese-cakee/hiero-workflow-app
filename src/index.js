@@ -20,6 +20,11 @@ const { createRouter } = require('./router');
 function buildApplication(application) {
   const router = createRouter(application);
 
+  // Health-check endpoint for load balancers and orchestrators.
+  application.route().get('/health', (_req, res) => {
+    res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+  });
+
   // Issue and comment events drive assignment, escalation, and slash commands.
   application.on('issues.opened', router.handleIssueOpened);
   application.on('issue_comment.created', router.handleIssueCommentCreated);

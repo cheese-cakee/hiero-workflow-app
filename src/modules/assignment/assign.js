@@ -110,6 +110,10 @@ async function handleAssign(botContext, moduleConfig, logger, audit) {
       completed: prereqResult.completedCount,
     }, 'Prerequisites not met');
 
+    const prereqDisplayName = Object.values(moduleConfig.skill_levels)
+      .find((s) => s.prerequisites?.label === prereqResult.prerequisiteLabel)
+      ?.display_name ?? prereqResult.prerequisiteLabel;
+
     await createComment(
       botContext,
       buildPrerequisiteNotMetComment(
@@ -118,7 +122,7 @@ async function handleAssign(botContext, moduleConfig, logger, audit) {
         prereqResult.completedCount,
         prereqResult.requiredCount,
         prereqResult.prerequisiteLabel,
-        prereqResult.prerequisiteLabel,
+        prereqDisplayName,
       ),
     );
 
@@ -201,10 +205,10 @@ async function handleAssign(botContext, moduleConfig, logger, audit) {
   const swapResult = await swapLabels(botContext, readyLabel, inProgressLabel);
 
   if (!swapResult.success) {
-    logger.error({ error: swapResult.errorDetails }, 'Label swap failed');
+    logger.error({ error: swapResult.error }, 'Label swap failed');
     await createComment(
       botContext,
-      buildLabelUpdateFailureComment(requesterUsername, swapResult.errorDetails),
+      buildLabelUpdateFailureComment(requesterUsername, swapResult.error),
     );
   }
 

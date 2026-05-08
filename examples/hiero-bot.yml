@@ -1,0 +1,90 @@
+# hiero-bot.yml
+
+# This is the default configuration for the Hiero Workflow App.
+# Copy this to .github/hiero-bot.yml in your repository to customize.
+
+_extends: hiero-bot
+
+# ── Assignment Module ──────────────────────────────────────────────────────
+assignment:
+  enabled: false
+  commands:
+    - /assign
+    - /unassign
+  max_open_assignments: 3
+  cross_repo_prerequisites: true
+  status_labels:
+    ready: status: ready for dev
+    in_progress: status: in progress
+    blocked: status: blocked
+    needs_review: status: needs review
+  skill_levels:
+    skill: good first issue:
+      max_completions: 5
+      display_name: Good First Issue
+    skill: beginner:
+      prerequisites:
+        label: skill: good first issue
+        min_completed: 2
+      display_name: Beginner
+
+# ── PR Quality Module ─────────────────────────────────────────────────────
+pr_quality:
+  enabled: false
+  unified_dashboard: true
+  checks:
+    dco: true
+    gpg: true
+    merge_conflict: true
+    linked_issue: true
+    conventional_title: true
+    linked_issue_assigned: true
+  auto_label: true
+  draft_explainer: true
+
+# ── Inactivity Module ─────────────────────────────────────────────────────
+inactivity:
+  enabled: false
+  days_until_warning: 7
+  days_until_close: 14
+  warning_label: status: stale
+  exempt_labels:
+    - status: blocked
+    - status: needs review
+
+# ── Escalation Module ─────────────────────────────────────────────────────
+escalation:
+  enabled: false
+  rules: []
+  # Example:
+  # - label: priority: high
+  #   notify_team: core-maintainers
+  #   cooldown_hours: 24
+
+# ── Onboarding Module ─────────────────────────────────────────────────────
+onboarding:
+  enabled: false
+  welcome_message: false
+  profile_heuristics: false
+  max_account_age_days: 3
+
+# ── AI Planning Module ─────────────────────────────────────────────────────
+ai_planning:
+  enabled: false
+  auto_generate_plan: false
+
+# ── AI Review Module ──────────────────────────────────────────────────────
+ai_review:
+  enabled: false
+  auto_review_pr: false
+
+# ── Progression Module ────────────────────────────────────────────────────
+progression:
+  enabled: false
+  auto_promote: false
+  promotion_threshold: 3
+
+# ── Audit Logging ─────────────────────────────────────────────────────────
+audit:
+  log_comments: true
+  comment_on_errors: true

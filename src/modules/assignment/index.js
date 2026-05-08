@@ -20,7 +20,7 @@ const { handleUnassign } = require('./unassign');
  * @returns {string|null} 'assign', 'unassign', or null.
  */
 function parseCommand(body) {
-  if (typeof body !== 'string') {
+  if (typeof body !== 'string' || body.length > 10000) {
     return null;
   }
   if (/^\s*\/assign\s*$/i.test(body)) {
