@@ -11,7 +11,14 @@
     "test:watch": "jest --watch",
     "coverage": "jest --coverage",
     "lint": "eslint src/ tests/",
-    "lint:fix": "eslint src/ tests/ --fix"
+    "lint:fix": "eslint src/ tests/ --fix",
+    "setup": "node scripts/setup.js",
+    "test:assign": "probot receive -e issue_comment.created -p tests/fixtures/issue_comment.created.assign.json ./src/index.js",
+    "test:unassign": "probot receive -e issue_comment.created -p tests/fixtures/issue_comment.created.unassign.json ./src/index.js",
+    "test:pr": "probot receive -e pull_request.opened -p tests/fixtures/pull_request.opened.json ./src/index.js",
+    "test:pr-sync": "probot receive -e pull_request.synchronize -p tests/fixtures/pull_request.synchronize.json ./src/index.js",
+    "test:issue": "probot receive -e issues.opened -p tests/fixtures/issues.opened.json ./src/index.js",
+    "test:all-events": "npm run test:assign && npm run test:unassign && npm run test:pr && npm run test:pr-sync && npm run test:issue"
   },
   "keywords": [
     "hiero",

@@ -1,0 +1,25 @@
+{
+  "action": "created",
+  "installation": { "id": 1 },
+  "issue": {
+    "number": 1,
+    "title": "Test: valid GFI assignment",
+    "state": "open",
+    "assignees": [],
+    "labels": [
+      { "name": "status: ready for dev" },
+      { "name": "skill: good first issue" }
+    ]
+  },
+  "comment": {
+    "id": 1001,
+    "body": "/assign",
+    "user": { "login": "contributor" }
+  },
+  "repository": {
+    "name": "hiero-sdk-cpp",
+    "owner": { "login": "test-org" },
+    "id": 1
+  },
+  "sender": { "login": "contributor" }
+}

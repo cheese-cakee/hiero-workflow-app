@@ -1,0 +1,25 @@
+{
+  "action": "created",
+  "installation": { "id": 1 },
+  "issue": {
+    "number": 2,
+    "title": "Test: already assigned",
+    "state": "open",
+    "assignees": [{ "login": "another-user" }],
+    "labels": [
+      { "name": "status: ready for dev" },
+      { "name": "skill: good first issue" }
+    ]
+  },
+  "comment": {
+    "id": 1002,
+    "body": "/assign",
+    "user": { "login": "contributor" }
+  },
+  "repository": {
+    "name": "hiero-sdk-cpp",
+    "owner": { "login": "test-org" },
+    "id": 1
+  },
+  "sender": { "login": "contributor" }
+}

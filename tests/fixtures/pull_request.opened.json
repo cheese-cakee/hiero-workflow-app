@@ -1,0 +1,19 @@
+{
+  "action": "opened",
+  "installation": { "id": 1 },
+  "pull_request": {
+    "number": 101,
+    "title": "feat: add new hashing algorithm",
+    "body": "Fixes #42",
+    "state": "open",
+    "draft": false,
+    "mergeable": true,
+    "head": { "sha": "abc123" }
+  },
+  "repository": {
+    "name": "hiero-sdk-cpp",
+    "owner": { "login": "test-org" },
+    "id": 1
+  },
+  "sender": { "login": "contributor" }
+}
