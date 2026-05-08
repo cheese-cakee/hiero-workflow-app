@@ -20,7 +20,8 @@
  * @returns {import('probot').Logger} A child logger with bound metadata.
  */
 function createLogger(application, moduleName, context) {
-  const repository = context.payload.repository;
+  const payload = context?.payload ?? {};
+  const repository = payload.repository;
   const owner = repository?.owner?.login ?? 'unknown';
   const repo = repository?.name ?? 'unknown';
 
@@ -28,7 +29,7 @@ function createLogger(application, moduleName, context) {
     module: moduleName,
     owner: owner,
     repo: repo,
-    installation_id: context.payload.installation?.id,
+    installation_id: payload.installation?.id,
   });
 }
 
