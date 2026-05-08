@@ -19,7 +19,7 @@ function buildBotContext(probotContext, config) {
     // Core Probot objects
     github: probotContext.octokit,
     context: probotContext,
-    config: config,
+    config,
 
     // Repository identity
     owner: repository?.owner?.login ?? null,
@@ -27,7 +27,7 @@ function buildBotContext(probotContext, config) {
     repositoryId: repository?.id ?? null,
 
     // Event payload (typed by event name)
-    payload: payload,
+    payload,
 
     // Common payload shortcuts
     issue: payload.issue ?? null,

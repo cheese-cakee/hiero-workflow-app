@@ -23,7 +23,7 @@ module.exports = [
     },
     rules: {
       // Possible Problems
-      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' }],
       'no-undef': 'error',
       'no-unreachable': 'error',
 

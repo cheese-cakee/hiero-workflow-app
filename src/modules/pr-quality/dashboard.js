@@ -33,7 +33,7 @@ async function findExistingDashboardComment(botContext) {
     }
 
     return null;
-  } catch (error) {
+  } catch (_error) {
     return null;
   }
 }
@@ -53,14 +53,14 @@ async function upsertDashboardComment(botContext, body) {
       owner: botContext.owner,
       repo: botContext.repo,
       comment_id: existingId,
-      body: body,
+      body,
     });
   } else {
     await botContext.github.issues.createComment({
       owner: botContext.owner,
       repo: botContext.repo,
       issue_number: botContext.pullRequest.number,
-      body: body,
+      body,
     });
   }
 }

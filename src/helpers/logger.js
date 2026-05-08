@@ -27,8 +27,8 @@ function createLogger(application, moduleName, context) {
 
   return application.log.child({
     module: moduleName,
-    owner: owner,
-    repo: repo,
+    owner,
+    repo,
     installation_id: payload.installation?.id,
   });
 }

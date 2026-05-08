@@ -40,7 +40,7 @@ async function checkDco(botContext) {
       passed: false,
       details: `${unsignedCommits.length} commit(s) missing DCO sign-off`,
     };
-  } catch (error) {
+  } catch (_error) {
     return { passed: false, details: 'Could not verify DCO status' };
   }
 }
@@ -73,7 +73,7 @@ async function checkGpg(botContext) {
       passed: false,
       details: `${unverifiedCommits.length} commit(s) not GPG verified`,
     };
-  } catch (error) {
+  } catch (_error) {
     return { passed: false, details: 'Could not verify GPG status' };
   }
 }
@@ -161,7 +161,7 @@ async function checkLinkedIssueAssigned(botContext, issueNumber) {
     }
 
     return { passed: false, details: `Issue #${issueNumber} has no assignee` };
-  } catch (error) {
+  } catch (_error) {
     return { passed: false, details: `Could not check issue #${issueNumber}` };
   }
 }

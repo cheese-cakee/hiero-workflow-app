@@ -7,11 +7,11 @@
  * Full implementation will be added in a subsequent commit.
  */
 
-async function handleIssueOpened(botContext, moduleConfig, logger, audit) {
+async function handleIssueOpened(_botContext, moduleConfig, logger, _audit) {
   logger.debug({ moduleConfig }, 'Onboarding module received issue opened event (stub)');
 }
 
-async function handlePullRequestOpened(botContext, moduleConfig, logger, audit) {
+async function handlePullRequestOpened(_botContext, moduleConfig, logger, _audit) {
   logger.debug({ moduleConfig }, 'Onboarding module received PR opened event (stub)');
 }
 

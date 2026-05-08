@@ -34,11 +34,11 @@ function createAuditLogger(application) {
   function log(botContext, moduleName, action, details) {
     logger.info({
       module: moduleName,
-      action: action,
+      action,
       owner: botContext.owner,
       repo: botContext.repo,
       issue_number: botContext.issue?.number ?? botContext.pullRequest?.number,
-      details: details,
+      details,
     }, `Audit: ${moduleName}.${action}`);
   }
 

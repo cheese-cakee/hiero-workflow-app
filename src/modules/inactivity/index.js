@@ -7,7 +7,7 @@
  * Full implementation will be added in a subsequent commit.
  */
 
-async function handleSchedule(botContext, moduleConfig, logger, audit) {
+async function handleSchedule(_botContext, moduleConfig, logger, _audit) {
   logger.debug({ moduleConfig }, 'Inactivity module received schedule event (stub)');
 }
 

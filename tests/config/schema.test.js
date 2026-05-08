@@ -8,7 +8,6 @@
  */
 
 const { createConfigValidator } = require('../../src/config/schema');
-const { safeDefaults } = require('../../src/config/defaults');
 
 describe('createConfigValidator', () => {
   let validate;

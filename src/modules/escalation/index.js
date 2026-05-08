@@ -7,11 +7,11 @@
  * Full implementation will be added in a subsequent commit.
  */
 
-async function handleComment(botContext, moduleConfig, logger, audit) {
+async function handleComment(_botContext, moduleConfig, logger, _audit) {
   logger.debug({ moduleConfig }, 'Escalation module received comment event (stub)');
 }
 
-async function handleIssueOpened(botContext, moduleConfig, logger, audit) {
+async function handleIssueOpened(_botContext, moduleConfig, logger, _audit) {
   logger.debug({ moduleConfig }, 'Escalation module received issue opened event (stub)');
 }
 

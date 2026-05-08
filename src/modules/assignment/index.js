@@ -66,7 +66,7 @@ async function handleComment(botContext, moduleConfig, logger, audit) {
  * Currently a no-op; may be used in the future to update assignment
  * status when a review is submitted.
  */
-async function handleReviewSubmitted(botContext, moduleConfig, logger, audit) {
+async function handleReviewSubmitted(_botContext, _moduleConfig, logger, _audit) {
   logger.debug('Review submitted event received (no-op)');
 }
 

@@ -31,7 +31,6 @@ const {
   buildPrerequisiteNotMetComment,
   buildGfiLimitExceededComment,
   buildAssignmentLimitExceededComment,
-  buildApiErrorComment,
   buildLabelUpdateFailureComment,
   buildAssignmentFailureComment,
 } = require('./comments');

@@ -67,7 +67,7 @@ async function createComment(botContext, body) {
       owner: botContext.owner,
       repo: botContext.repo,
       issue_number: botContext.issue.number,
-      body: body,
+      body,
     });
     return { success: true };
   } catch (error) {
@@ -89,7 +89,7 @@ async function addReaction(botContext, commentId, content) {
       owner: botContext.owner,
       repo: botContext.repo,
       comment_id: commentId,
-      content: content,
+      content,
     });
     return { success: true };
   } catch (error) {
@@ -211,7 +211,7 @@ async function countIssuesByAssignee(
     });
 
     return response.data.items.length;
-  } catch (error) {
+  } catch (_error) {
     return null;
   }
 }
@@ -233,7 +233,7 @@ async function listAssignedIssues(botContext, username) {
       per_page: 100,
     });
     return response.data;
-  } catch (error) {
+  } catch (_error) {
     return null;
   }
 }

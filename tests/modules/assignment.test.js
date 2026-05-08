@@ -167,7 +167,7 @@ describe('Assignment module', () => {
 
       // No bypass: return 0 for all levels. Then prerequisite check returns 1 < 2.
       githubHelpers.countIssuesByAssignee.mockImplementation((_ctx, _user, _state, label) => {
-        if (label === 'skill: good first issue') return Promise.resolve(1);
+        if (label === 'skill: good first issue') {return Promise.resolve(1);}
         return Promise.resolve(0);
       });
 
@@ -187,7 +187,7 @@ describe('Assignment module', () => {
       ];
 
       githubHelpers.countIssuesByAssignee.mockImplementation((_ctx, _user, _state, label) => {
-        if (label === 'skill: good first issue') return Promise.resolve(5);
+        if (label === 'skill: good first issue') {return Promise.resolve(5);}
         return Promise.resolve(0);
       });
 
@@ -207,8 +207,8 @@ describe('Assignment module', () => {
       ];
 
       githubHelpers.countIssuesByAssignee.mockImplementation((_ctx, _user, _state, label) => {
-        if (label === null) return Promise.resolve(2); // open assignments
-        if (label === 'skill: good first issue') return Promise.resolve(0);
+        if (label === null) {return Promise.resolve(2);} // open assignments
+        if (label === 'skill: good first issue') {return Promise.resolve(0);}
         return Promise.resolve(0);
       });
 
@@ -232,7 +232,7 @@ describe('Assignment module', () => {
       ];
 
       githubHelpers.countIssuesByAssignee.mockImplementation((_ctx, _user, _state, label) => {
-        if (label === null) return Promise.resolve(2); // open assignments at limit
+        if (label === null) {return Promise.resolve(2);} // open assignments at limit
         return Promise.resolve(0);
       });
 
