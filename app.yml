@@ -10,7 +10,7 @@
 name: Hiero Workflow App
 url: https://github.com/cheese-cakee/hiero-workflow-app
 description: Reusable automation for Hiero SDK maintainer workflows
-setup_url: https://github.com/cheese-cakee/hiero-workflow-app/blob/main/docs/getting-started.md
+setup_url: https://github.com/cheese-cakee/hiero-workflow-app/blob/master/docs/getting-started.md
 
 # The App requires minimal permissions. It never checks out PR branch code.
 default_events:
@@ -18,7 +18,6 @@ default_events:
   - issue_comment
   - pull_request
   - pull_request_review
-  - schedule
 
 default_permissions:
   # Read repository contents to fetch configuration files.

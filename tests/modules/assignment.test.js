@@ -339,4 +339,168 @@ describe('Assignment module', () => {
       expect(githubHelpers.removeAssignees).not.toHaveBeenCalled();
     });
   });
+
+  describe('assign error paths', () => {
+    test('informs when requester is already the assignee', async () => {
+      botContext.issue.assignees = [{ login: 'contributor' }];
+
+      await handleAssign(botContext, moduleConfig, logger, audit);
+
+      expect(githubHelpers.addAssignees).not.toHaveBeenCalled();
+      expect(githubHelpers.createComment).toHaveBeenCalledWith(
+        botContext,
+        expect.stringContaining('already assigned'),
+      );
+    });
+
+    test('posts failure comment when assign API fails', async () => {
+      botContext.issue.labels = [
+        { name: 'status: ready for dev' },
+        { name: 'skill: good first issue' },
+      ];
+
+      githubHelpers.addAssignees.mockResolvedValue({ success: false, error: 'Forbidden' });
+      githubHelpers.addReaction.mockResolvedValue({ success: true });
+
+      await handleAssign(botContext, moduleConfig, logger, audit);
+
+      expect(githubHelpers.createComment).toHaveBeenCalledWith(
+        botContext,
+        expect.stringContaining('system error'),
+      );
+    });
+
+    test('posts failure comment when label swap fails after assignment', async () => {
+      botContext.issue.labels = [
+        { name: 'status: ready for dev' },
+        { name: 'skill: good first issue' },
+      ];
+
+      githubHelpers.addAssignees.mockResolvedValue({ success: true });
+      githubHelpers.swapLabels.mockResolvedValue({ success: false, error: 'Not Found' });
+      githubHelpers.addReaction.mockResolvedValue({ success: true });
+
+      await handleAssign(botContext, moduleConfig, logger, audit);
+
+      expect(githubHelpers.createComment).toHaveBeenCalledWith(
+        botContext,
+        expect.stringContaining('could not update the status labels'),
+      );
+    });
+
+    test('silently exits when no ready label is configured', async () => {
+      botContext.issue.labels = [
+        { name: 'skill: good first issue' },
+      ];
+      moduleConfig.status_labels.ready = undefined;
+
+      await handleAssign(botContext, moduleConfig, logger, audit);
+
+      expect(githubHelpers.addAssignees).not.toHaveBeenCalled();
+      expect(githubHelpers.createComment).not.toHaveBeenCalled();
+      expect(logger.warn).toHaveBeenCalledWith('No ready label configured');
+    });
+  });
+
+  describe('unassign error paths', () => {
+    test('posts failure comment when unassign API fails', async () => {
+      botContext.comment.body = '/unassign';
+      botContext.issue.assignees = [{ login: 'contributor' }];
+
+      githubHelpers.removeAssignees.mockResolvedValue({ success: false, error: 'Forbidden' });
+      githubHelpers.addReaction.mockResolvedValue({ success: true });
+
+      await handleUnassign(botContext, moduleConfig, logger, audit);
+
+      expect(githubHelpers.createComment).toHaveBeenCalledWith(
+        botContext,
+        expect.stringContaining('system error'),
+      );
+    });
+
+    test('posts reason comment when closed issue unassigned', async () => {
+      botContext.comment.body = '/unassign';
+      botContext.issue.state = 'closed';
+
+      await handleUnassign(botContext, moduleConfig, logger, audit);
+
+      expect(githubHelpers.createComment).toHaveBeenCalledWith(
+        botContext,
+        expect.stringContaining('already closed'),
+      );
+    });
+
+    test('posts reason comment when no assignees exist', async () => {
+      botContext.comment.body = '/unassign';
+      botContext.issue.assignees = [];
+
+      await handleUnassign(botContext, moduleConfig, logger, audit);
+
+      expect(githubHelpers.createComment).toHaveBeenCalledWith(
+        botContext,
+        expect.stringContaining('no assignees'),
+      );
+    });
+  });
+
+  describe('eligibility null-return paths', () => {
+    beforeEach(() => {
+      botContext.issue.labels = [
+        { name: 'status: ready for dev' },
+        { name: 'skill: beginner' },
+      ];
+      githubHelpers.addReaction.mockResolvedValue({ success: true });
+    });
+
+    test('rejects when prerequisite count returns null', async () => {
+      githubHelpers.countIssuesByAssignee.mockResolvedValue(null);
+
+      await handleAssign(botContext, moduleConfig, logger, audit);
+
+      expect(githubHelpers.addAssignees).not.toHaveBeenCalled();
+    });
+
+    test('rejects when GFI count returns null', async () => {
+      botContext.issue.labels = [
+        { name: 'status: ready for dev' },
+        { name: 'skill: good first issue' },
+      ];
+      githubHelpers.countIssuesByAssignee.mockResolvedValue(null);
+
+      await handleAssign(botContext, moduleConfig, logger, audit);
+
+      expect(githubHelpers.addAssignees).not.toHaveBeenCalled();
+    });
+
+    test('rejects when assignment limit count returns null', async () => {
+      botContext.issue.labels = [
+        { name: 'status: ready for dev' },
+        { name: 'skill: good first issue' },
+      ];
+      githubHelpers.countIssuesByAssignee.mockImplementation((_ctx, _user, _state, label) => {
+        if (label === 'skill: good first issue') {return Promise.resolve(0);}
+        return Promise.resolve(null);
+      });
+
+      await handleAssign(botContext, moduleConfig, logger, audit);
+
+      expect(githubHelpers.addAssignees).not.toHaveBeenCalled();
+    });
+
+    test('rejects when assigned issues list returns null', async () => {
+      botContext.issue.labels = [
+        { name: 'status: ready for dev' },
+        { name: 'skill: good first issue' },
+      ];
+      githubHelpers.countIssuesByAssignee.mockImplementation((_ctx, _user, _state, label) => {
+        if (label === null) {return Promise.resolve(3);}
+        return Promise.resolve(0);
+      });
+      githubHelpers.listAssignedIssues.mockResolvedValue(null);
+
+      await handleAssign(botContext, moduleConfig, logger, audit);
+
+      expect(githubHelpers.addAssignees).not.toHaveBeenCalled();
+    });
+  });
 });

@@ -83,7 +83,7 @@ url(
   '',
 );
 info('After installing, create .github/hiero-bot.yml in the test repo:');
-info(`  cp ${rootDir}\\examples\\hiero-bot.yml .github\\hiero-bot.yml`);
+info(`  cp examples${path.sep}hiero-bot.yml .github${path.sep}hiero-bot.yml`);
 info('Edit the file to enable the modules you want to test.');
 
 console.log(`\n${GREEN}Setup complete!${RESET}`);

@@ -197,4 +197,85 @@ describe('createRouter', () => {
       expect(loadConfig).toHaveBeenCalledTimes(2);
     });
   });
+
+  describe('handleIssueOpened', () => {
+    test('dispatches to enabled escalation and onboarding modules', async () => {
+      loadConfig.mockResolvedValue(makeConfig({
+        escalation: { enabled: true },
+        onboarding: { enabled: true },
+      }));
+
+      await router.handleIssueOpened(mockContext);
+
+      expect(escalationModule.handleIssueOpened).toHaveBeenCalledTimes(1);
+      expect(onboardingModule.handleIssueOpened).toHaveBeenCalledTimes(1);
+    });
+
+    test('passes correct sub-config to escalation module', async () => {
+      loadConfig.mockResolvedValue(makeConfig({
+        escalation: { enabled: true, rules: [{ notify_team: 'test' }] },
+      }));
+
+      await router.handleIssueOpened(mockContext);
+
+      expect(escalationModule.handleIssueOpened).toHaveBeenCalledWith(
+        expect.any(Object),
+        expect.objectContaining({ enabled: true, rules: [{ notify_team: 'test' }] }),
+        expect.any(Object),
+        expect.any(Object),
+      );
+    });
+  });
+
+  describe('handlePullRequestEdited', () => {
+    test('dispatches to enabled pr_quality module', async () => {
+      loadConfig.mockResolvedValue(makeConfig({
+        pr_quality: { enabled: true },
+      }));
+
+      await router.handlePullRequestEdited(mockContext);
+
+      expect(prQualityModule.handlePullRequestEdited).toHaveBeenCalledTimes(1);
+    });
+
+    test('skips disabled pr_quality module', async () => {
+      loadConfig.mockResolvedValue(makeConfig());
+
+      await router.handlePullRequestEdited(mockContext);
+
+      expect(prQualityModule.handlePullRequestEdited).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('handlePullRequestSynchronized', () => {
+    test('dispatches to enabled pr_quality module', async () => {
+      loadConfig.mockResolvedValue(makeConfig({
+        pr_quality: { enabled: true },
+      }));
+
+      await router.handlePullRequestSynchronized(mockContext);
+
+      expect(prQualityModule.handlePullRequestSynchronized).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('handlePullRequestReviewSubmitted', () => {
+    test('dispatches to enabled assignment module', async () => {
+      loadConfig.mockResolvedValue(makeConfig({
+        assignment: { enabled: true },
+      }));
+
+      await router.handlePullRequestReviewSubmitted(mockContext);
+
+      expect(assignmentModule.handleReviewSubmitted).toHaveBeenCalledTimes(1);
+    });
+
+    test('skips disabled assignment module', async () => {
+      loadConfig.mockResolvedValue(makeConfig());
+
+      await router.handlePullRequestReviewSubmitted(mockContext);
+
+      expect(assignmentModule.handleReviewSubmitted).not.toHaveBeenCalled();
+    });
+  });
 });

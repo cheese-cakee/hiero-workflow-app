@@ -24,4 +24,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=10s \
 
 USER node
 
-CMD ["node", "src/index.js"]
+CMD ["npm", "start"]

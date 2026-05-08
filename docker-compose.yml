@@ -11,18 +11,8 @@ services:
       - APP_ID=${APP_ID}
       - WEBHOOK_SECRET=${WEBHOOK_SECRET}
       - PRIVATE_KEY_PATH=${PRIVATE_KEY_PATH:-/run/secrets/private-key.pem}
-      - LOG_LEVEL=${LOG_LEVEL:-info}
-    volumes:
-      - ./.data:/app/.data
     secrets:
-      - private-key
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "node", "-e", "const http = require('http'); http.get('http://localhost:3000/health', (r) => process.exit(r.statusCode === 200 ? 0 : 1))"]
-      interval: 30s
-      timeout: 3s
-      start_period: 10s
-
+      - private-key.pem
 secrets:
-  private-key:
+  private-key.pem:
     file: ./private-key.pem

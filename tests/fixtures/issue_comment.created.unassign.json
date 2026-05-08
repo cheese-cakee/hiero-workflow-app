@@ -3,17 +3,17 @@
   "installation": { "id": 1 },
   "issue": {
     "number": 2,
-    "title": "Test: already assigned",
+    "title": "Test: unassign me",
     "state": "open",
-    "assignees": [{ "login": "another-user" }],
+    "assignees": [{ "login": "contributor" }],
     "labels": [
-      { "name": "status: ready for dev" },
+      { "name": "status: in progress" },
       { "name": "skill: good first issue" }
     ]
   },
   "comment": {
-    "id": 1002,
-    "body": "/assign",
+    "id": 1003,
+    "body": "/unassign",
     "user": { "login": "contributor" }
   },
   "repository": {

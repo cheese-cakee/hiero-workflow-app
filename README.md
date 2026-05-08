@@ -83,11 +83,13 @@ See [`examples/hiero-bot.yml`](examples/hiero-bot.yml) for a full reference.
 
 | Module | Status | Description |
 |--------|--------|-------------|
-| Assignment | Planned | `/assign`, `/unassign` with skill-level prerequisites |
-| PR Quality | Planned | Unified dashboard comment for DCO, GPG, linked issue, etc. |
+| Assignment | Alpha | `/assign`, `/unassign` with skill-level prerequisites and limits |
+| PR Quality | Alpha | Unified dashboard comment for DCO, GPG, linked issue, merge conflicts |
 | Inactivity | Planned | Warn and close stale assignments |
 | Onboarding | Planned | Welcome first-time contributors |
 | Escalation | Planned | Notify teams based on issue labels |
+| AI Planning | Planned | AI-generated issue breakdowns (stub) |
+| AI Review | Planned | AI-generated PR reviews (stub) |
 
 ## License
 

@@ -282,4 +282,137 @@ describe('Dashboard builder', () => {
     const body = dashboard.buildDashboardBody({}, false);
     expect(body).not.toContain('This PR is a **draft**');
   });
+
+  test('handles empty results map', () => {
+    const body = dashboard.buildDashboardBody({}, false);
+    expect(body).toContain('| Check | Status |');
+  });
+});
+
+describe('PR Quality check error paths', () => {
+  let botContext;
+
+  beforeEach(() => {
+    botContext = {
+      owner: 'hiero-ledger',
+      repo: 'hiero-sdk-cpp',
+      pullRequest: { number: 101 },
+      github: {
+        pulls: { listCommits: jest.fn() },
+        issues: { get: jest.fn() },
+      },
+    };
+  });
+
+  test('checkDco returns fail when listCommits API errors', async () => {
+    botContext.github.pulls.listCommits.mockRejectedValue(new Error('API Error'));
+
+    const result = await checks.checkDco(botContext);
+    expect(result.passed).toBe(false);
+    expect(result.details).toBe('Could not verify DCO status');
+  });
+
+  test('checkGpg returns fail when listCommits API errors', async () => {
+    botContext.github.pulls.listCommits.mockRejectedValue(new Error('API Error'));
+
+    const result = await checks.checkGpg(botContext);
+    expect(result.passed).toBe(false);
+    expect(result.details).toBe('Could not verify GPG status');
+  });
+
+  test('checkLinkedIssue fails when PR body is null', async () => {
+    botContext.pullRequest.body = null;
+
+    const result = await checks.checkLinkedIssue(botContext);
+    expect(result.passed).toBe(false);
+  });
+
+  test('checkLinkedIssue passes with bare issue reference', async () => {
+    botContext.pullRequest.body = 'Related to #99';
+
+    const result = await checks.checkLinkedIssue(botContext);
+    expect(result.passed).toBe(true);
+    expect(result.issueNumber).toBe(99);
+  });
+
+  test('checkConventionalTitle fails for null title', async () => {
+    botContext.pullRequest.title = null;
+
+    const result = await checks.checkConventionalTitle(botContext);
+    expect(result.passed).toBe(false);
+  });
+
+  test('checkConventionalTitle passes for breaking change notation', async () => {
+    botContext.pullRequest.title = 'feat!: drop legacy support';
+
+    const result = await checks.checkConventionalTitle(botContext);
+    expect(result.passed).toBe(true);
+  });
+
+  test('checkLinkedIssueAssigned returns fail when issues.get API errors', async () => {
+    botContext.github.issues.get.mockRejectedValue(new Error('API Error'));
+
+    const result = await checks.checkLinkedIssueAssigned(botContext, 42);
+    expect(result.passed).toBe(false);
+    expect(result.details).toContain('Could not check');
+  });
+});
+
+describe('PR Quality module edge cases', () => {
+  let botContext;
+  let moduleConfig;
+  let logger;
+  let audit;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    botContext = {
+      owner: 'hiero-ledger',
+      repo: 'hiero-sdk-cpp',
+      pullRequest: {
+        number: 101,
+        draft: false,
+        title: 'feat: add feature',
+        body: 'Fixes #42',
+      },
+      github: {
+        pulls: { listCommits: jest.fn() },
+        issues: {
+          get: jest.fn(),
+          listComments: jest.fn(),
+          createComment: jest.fn(),
+        },
+      },
+    };
+
+    moduleConfig = {
+      enabled: true,
+      checks: {
+        dco: true,
+        gpg: true,
+        merge_conflict: true,
+        linked_issue: true,
+        conventional_title: true,
+        linked_issue_assigned: true,
+      },
+    };
+
+    logger = { info: jest.fn(), warn: jest.fn(), error: jest.fn(), debug: jest.fn() };
+    audit = { log: jest.fn(), logAndComment: jest.fn() };
+  });
+
+  test('skips linked_issue_assigned when disabled in config', async () => {
+    moduleConfig.checks.linked_issue_assigned = false;
+
+    botContext.github.pulls.listCommits.mockResolvedValue({ data: [] });
+    botContext.github.issues.get.mockResolvedValue({ data: { assignees: [] } });
+    botContext.github.issues.listComments.mockResolvedValue({ data: [] });
+    botContext.github.issues.createComment.mockResolvedValue({});
+
+    await prQualityModule.handlePullRequestOpened(botContext, moduleConfig, logger, audit);
+
+    const body = dashboard.upsertDashboardComment.mock.calls[0][1];
+    expect(body).not.toContain('Linked Issue Assigned');
+  });
 });
