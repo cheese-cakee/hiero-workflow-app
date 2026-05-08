@@ -1,0 +1,39 @@
+# SPDX-License-Identifier: Apache-2.0
+
+# GitHub App manifest for the Hiero Workflow App.
+#
+# This file is used by Probot's app setup endpoint and describes the
+# permissions and event subscriptions required by the application.
+#
+# Reference: https://docs.github.com/en/developers/apps/creating-a-github-app-from-a-manifest
+
+name: Hiero Workflow App
+url: https://github.com/cheese-cakee/hiero-workflow-app
+description: Reusable automation for Hiero SDK maintainer workflows
+setup_url: https://github.com/cheese-cakee/hiero-workflow-app/blob/main/docs/getting-started.md
+
+# The App requires minimal permissions. It never checks out PR branch code.
+default_events:
+  - issues
+  - issue_comment
+  - pull_request
+  - pull_request_review
+  - schedule
+
+default_permissions:
+  # Read repository contents to fetch configuration files.
+  contents: read
+
+  # Read and write issues for assignment, labeling, and comments.
+  issues: write
+
+  # Read and write pull requests for dashboard comments and labeling.
+  pull_requests: write
+
+  # Read repository metadata (used for permission checks).
+  metadata: read
+
+  # Read organization members (for team escalation and permission checks).
+  members: read
+
+# The App does not require any OAuth scopes for user-facing features.

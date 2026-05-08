@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Runtime
+*.log
+.env
+.env.local
+
+# Keys and secrets
+*.pem
+private-key*
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test output
+coverage/
+.nyc_output/
+
+# SQLite state (production should use Postgres, but local dev uses sqlite)
+*.db
+*.db-journal
