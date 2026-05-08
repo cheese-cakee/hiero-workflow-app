@@ -7,21 +7,16 @@
  * Each event type is dispatched to the router, which loads configuration
  * and forwards to enabled modules.
  *
- * @param {import('probot').Probot} application - The Probot application instance.
+ * @param {import('probot').Probot} application — The Probot application instance.
+ * @param {{ getRouter: (path?: string) => import('express').Router }} options
  */
-
 const { createRouter } = require('./router');
 
-/**
- * Builds the Probot application by wiring event handlers to the router.
- *
- * @param {import('probot').Probot} application
- */
-function buildApplication(application) {
+function buildApplication(application, { getRouter }) {
   const router = createRouter(application);
 
   // Health-check endpoint for load balancers and orchestrators.
-  application.route().get('/health', (_req, res) => {
+  getRouter('/health').get('/', (_req, res) => {
     res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
   });
 
@@ -42,4 +37,3 @@ function buildApplication(application) {
 }
 
 module.exports = buildApplication;
-module.exports.buildApplication = buildApplication;

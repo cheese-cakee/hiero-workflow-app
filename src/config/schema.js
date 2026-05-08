@@ -53,6 +53,7 @@ const assignmentModuleSchema = {
         type: 'object',
         additionalProperties: false,
         properties: {
+          display_name: { type: 'string', maxLength: 100 },
           max_completions: { type: 'integer', minimum: 1, maximum: 100 },
           prerequisites: {
             type: ['object', 'null'],
