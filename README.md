@@ -26,12 +26,6 @@ Actions workflow, and produce 5+ bot comments per PR with no unified audit trail
 The Hiero Workflow App replaces all of that with a **single GitHub App** and a
 **single `.github/hiero-bot.yml` config file** per repository.
 
-> "We are less interested in extending workflows or creating new functionality,
-> we would like to instead design the most reusable structure for these automations
-> to be viably used by different repos with different needs."
->
-> — Sophie Bulloch (exploreriii), LFX Mentorship Issue #73
-
 ---
 
 ## How It Works
