@@ -64,7 +64,7 @@ graph TD
 
 ```mermaid
 flowchart TD
-    cmd[/assign detected] --> ack[add acknowledgement reaction]
+    cmd["/assign detected"] --> ack[add acknowledgement reaction]
     ack --> g1{Gate 1<br/>already assigned?}
     g1 -->|yes| r1[reject: already taken]
     g1 -->|no| g2{Gate 2<br/>has ready label?}
